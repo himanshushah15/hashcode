@@ -1,3 +1,5 @@
+import copy
+
 from pizza import Pizza
 from delivery import Delivery
 from input_handler import pizza_list, T2, T3, T4
@@ -28,19 +30,26 @@ delivery_T4_list = []
 # Global Methods
 
 def remove_choosen_pizza(left_pizza_list, tem_pizza_list):
+    # print(len(left_pizza_list))
+    # print(len(tem_pizza_list))
     for pizza in tem_pizza_list:
         left_pizza_list.remove(pizza)
 
 pizza_list.sort(key=lambda piz: piz.get_number_of_ingredients(), reverse=True)
 
+def print_pizza_list(a_pizza_list):
+    for pizza in a_pizza_list:
+        print(pizza.get_ingredients())
 
-# for pizza in pizza_list:
-#     print(pizza.get_ingredients())
+print_pizza_list(pizza_list)
 
 while True:
     #Look for the biggest team we can deliver
     if min(T4_left, int(num_pizza_left / 4)) > 0: # biggest team is a T4
+        # print('D4', D4)
         isDelivery_T4 = True
+        isDelivery_T3 = False
+        isDelivery_T2 = False
         temp_pizza_list_4 = pizza_list[pizza_index : pizza_index + 4]
         temp_delivery_T4 = Delivery(4, temp_pizza_list_4)
 
@@ -49,6 +58,7 @@ while True:
             temp_pizza_list_3.remove(pizza)
             temp_delivery_T3 = Delivery(3, temp_pizza_list_3)
             if(temp_delivery_T3.get_num_of_ingredients() >= temp_delivery_T4.get_num_of_ingredients() and T3_left > 0):
+                # print('D3', D3)
                 isDelivery_T4 = False
                 isDelivery_T3 = True
 
@@ -57,14 +67,17 @@ while True:
                     temp_pizza_list_2.remove(pizza)
                     temp_delivery_T2 = Delivery(2, temp_pizza_list_2)
                     if(temp_delivery_T2.get_num_of_ingredients() >= temp_delivery_T3.get_num_of_ingredients() and T2_left >0):
+                        # print('D2', D2)
                         isDelivery_T3 = False
+                        isDelivery_T2 = True
                         T2_left -= 1
                         num_pizza_left -= 2
                         delivery_T2_list.append(temp_delivery_T2)
                         remove_choosen_pizza(pizza_list, temp_pizza_list_2)
                         D2 += 1
-                        break
-
+                        break 
+                if isDelivery_T2:
+                    break
                 if isDelivery_T3:
                     T3_left -= 1
                     num_pizza_left -= 3
@@ -77,13 +90,13 @@ while True:
             T4_left -= 1
             num_pizza_left -= 4 
             delivery_T4_list.append(temp_delivery_T4)
-            for pizza in temp_pizza_list_4:
-                print(pizza.get_ingredients())
             remove_choosen_pizza(pizza_list, temp_pizza_list_4)
             D4 += 1
 
     elif min(T3_left, int(num_pizza_left / 3)) > 0: # biggest team is a T3
+        # print('D3', D3)
         isDelivery_T3 = True
+        isDelivery_T2 = False
         temp_pizza_list_3 = pizza_list[pizza_index : pizza_index + 3]
         temp_delivery_T3 = Delivery(3, temp_pizza_list_3)
 
@@ -93,6 +106,7 @@ while True:
             temp_delivery_T2 = Delivery(2, temp_pizza_list_2)
             if(temp_delivery_T2.get_num_of_ingredients() >= temp_delivery_T2.get_num_of_ingredients() and T2_left > 0):
                 isDelivery_T3 = False
+                isDelivery_T2 = True
                 T2_left -= 1
                 num_pizza_left -= 2
                 delivery_T2_list.append(temp_delivery_T2)
@@ -108,6 +122,8 @@ while True:
             D3 += 1
 
     elif min(T2_left, int(num_pizza_left / 2)) > 0: # biggest team is a T2
+        # print('D2', D2)
+        isDelivery_T2 = True
         temp_pizza_list_2 = pizza_list[pizza_index : pizza_index + 2]
         temp_delivery_T2 = Delivery(2, temp_pizza_list_2)
         T2_left -= 1

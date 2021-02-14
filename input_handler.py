@@ -2,7 +2,7 @@ import io
 from pizza import Pizza
 
 #read the input file 
-input_file = open("Problems/2021/practice_problem/a_example")
+input_file = open("Problems/2021/practice_problem/e_many_teams.in")
 
 # parse the num of pizza and team details from the first line 
 temp = input_file.readline()
