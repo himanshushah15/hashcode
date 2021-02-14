@@ -12,7 +12,7 @@ class Pizza:
         return self.index
 
     def get_number_of_ingredients(self):
-        return(len(ingredients))
+        return(len(self.ingredients))
 
 
 # def main():
