@@ -41,7 +41,7 @@ def print_pizza_list(a_pizza_list):
     for pizza in a_pizza_list:
         print(pizza.get_ingredients())
 
-print_pizza_list(pizza_list)
+# print_pizza_list(pizza_list)
 
 while True:
     #Look for the biggest team we can deliver
@@ -94,7 +94,6 @@ while True:
             D4 += 1
 
     elif min(T3_left, int(num_pizza_left / 3)) > 0: # biggest team is a T3
-        # print('D3', D3)
         isDelivery_T3 = True
         isDelivery_T2 = False
         temp_pizza_list_3 = pizza_list[pizza_index : pizza_index + 3]
@@ -155,3 +154,19 @@ for delivery in delivery_T4_list:
 
 score = score_T2 + score_T3 + score_T4
 print('score', score, 'score_T2', score_T2, 'score_T3', score_T3, 'score_T4', score_T4)
+print('num_of_pizza_left', num_pizza_left)
+
+delivery_list = []
+delivery_list.extend(delivery_T4_list)
+delivery_list.extend(delivery_T3_list)
+delivery_list.extend(delivery_T2_list)
+
+file = open("Solutions/e_out.txt", 'w')
+file.write(str(D))
+for delivery in delivery_list:
+    file.write('\n')
+    file.write(str(delivery.get_num_of_person()))
+    for pizza in delivery.pizzas:
+        file.write(' ' + str(pizza.get_index()))
+file.close()
+
